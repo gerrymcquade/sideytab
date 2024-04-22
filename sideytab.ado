@@ -1,5 +1,5 @@
 /***
-_Version 0.1.3_ 
+_Version 0.1.4_ 
 
 sideytab
 --------
@@ -214,7 +214,7 @@ syntax anything [if] [using], ///
 	
 	//display info
 	di ""
-	di as text "Version 0.1.3 | By Gerald McQuade | gerrymcquade@gitbhub.io | g.mcquade1@lancaster.ac.uk"
+	di as text "Version 0.1.4 | By Gerald McQuade | gerrymcquade@gitbhub.io | g.mcquade1@lancaster.ac.uk"
 	di ""
 	
 	//PARSE REPLACE OR APPEND IF USING SPECIFIED
