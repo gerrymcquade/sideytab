@@ -19,19 +19,19 @@ where {it:anything} is the name of a stored estimate. See  {browse "help estimat
 {p 4 4 2}
 The main options are:
 
-{col 5}{it:Option}{col 28}{it:Description}
-{space 4}{hline 65}
-{col 5}{ul:keep}({it:keeplist}){col 28}Specify which coefficients to keep
-{col 5}{ul:stats}({it:passthru}){col 28}Specify which stored statistics to keep
-{col 5}{ul:prefix}({it:string}){col 28}Prefix applied to each new estimate name
-{col 5}{ul:nocons}tant{col 28}Do not save model constant to estimates
-{col 5}{ul:tab}le{col 28}Produce new table output
-{space 4}{hline 65}
+{col 5}{it:Options}{col 30}{it:Description}
+{space 4}{hline 67}
+{col 5}{ul:keep}({it:keeplist}){col 30}Specify which coefficients to keep
+{col 5}{ul:stats}({it:scalarlist}){col 30}Specify which stored statistics to keep
+{col 5}{ul:prefix}({it:string}){col 30}Prefix applied to each new estimate name
+{col 5}{ul:nocons}tant{col 30}Do not save model constant to estimates
+{col 5}{ul:tab}le{col 30}Produce new table output
+{space 4}{hline 67}
 
 {p 4 4 2}
 If the {bf:table} option is specified the following options are relevant:
 
-{col 5}{it:Option}{col 23}{it:Description}
+{col 5}{it:Table options}{col 23}{it:Description}
 {space 4}{hline 74}
 {col 5}{ul:r}eplace{col 23}Overwrite an existing file
 {col 5}{ul:a}ppend{col 23}Append the output to an existing file
@@ -61,27 +61,32 @@ This package is hosted on Github. You can install {bf:sideytab} directly from it
 {title:Main options}
 
 {p 4 4 2}
-{bf:{ul:keep}({it:keeplist})} Specifies which coefficients should be run through esttab, therefore which coefficients are available in {bf:r(coefs)} to be collected and posted to 
-{bf:e()} . {it:keeplist} is passed asis to {bf:esttab}, therefore it is specified the same as {it:droplist} in  {browse "help estout##drop":estout} . Each coefficient will be stored as an estimate, allowing it to be manipulated using {bf:esttab} , etc. 
+{bf:{ul:keep}({it:keeplist})} Specifies which coefficients should be run through {bf:esttab} , therefore which coefficients are available in {bf:r(coefs)} to be collected and posted to 
+{bf:e()} . {it:keeplist} is passed asis to {bf:esttab}, therefore it is specified the same as {it:droplist} in  {browse "help estout##drop":estout} . Each coefficient will be stored as an estimate which can be used in a later {bf:esttab} call. 
 
 {p 4 4 2}
 When coefficients are posted as a new estimate, they must adhere to the naming conventions of {it:namelist}. Therefore coefficients with a leading numeric or containing special characters will have these characters replaced by an underscore "_". 
 This affects coefficients defined using factor notation, e.g. {bf:1.x} will be renamed as {bf:__x} . Alternatively, a prefix can be added to all estimate names, using the {bf:prefix} option (see below).
 
 {p 4 4 2}
-{bf:{ul:stats}({it:scalarlist})} Specifies one or more scalar statistics to be collected via {bf:r(stats)} and stored as estimates, with names corresponding to the name of each statistic. This includes any statistics which have been added post-estimation via the {bf:estadd} command. Statistics are collected and stored as estimates given the name of the statistic. These can be tabulated as models using {bf:esttab} , etc.
+{bf:{ul:stats}({it:scalarlist})} Specifies one or more scalar statistics to be collected via {bf:r(stats)} and stored as estimates, with names corresponding to the name of each statistic. This includes any statistics which have been added via the 
+{bf:estadd} command. Statistics are collected and stored as estimates given the name of the statistic. These can be tabulated as models using {bf:esttab} , etc.
 
 {p 4 4 2}
-Additionally, the {bf:r(stats)} matrix is added to the final stored estimate via {bf:estadd} , allowing them to be called within the {bf:cell()} option of {bf:estout} with the syntax {bf:S[{it:name}]} where the name refers to specific statistic name, or alternatively as {bf:S[{it:#}]} with the column index # of the matrix {bf:S} . See {bf:example X} below for further details.
+Additionally, the {bf:r(stats)} matrix is added to the final stored estimate via {bf:estadd} , allowing them to be called within the {bf:cell()} option of {bf:estout} with the syntax {bf:S[{it:name}]} where {it:name} is the statistic name. 
+Alternatively it can be referred to as {bf:S[{it:#}]} with the column index # of the matrix {bf:S} . See {bf:example 4} below for further details.
 
 {p 4 4 2}
-{bf:{ul:prefix}({it:string})} Specifies a prefix to be added to the new stored estimate names for each coefficient. It must not begin with a numeric or special character except "_". For example, if {bf:prefix(a})} is specified, each new estimate will be named {bf:a_price, a_weight} , etc. This is particularly useful for categorical variable defined by factor notation, with a leading numeric (e.g. {bf:1.foreign} ).
+{bf:{ul:prefix}({it:string})} Specifies a prefix to be added to the new stored estimate names for each coefficient. It must not begin with a numeric or special character except "_". This is particularly useful for factor notation 
+(e.g. {bf:1.foreign} ).
 
 {p 4 4 2}
 {bf:{ul:nocons}tant} If specified, suppresses the model constant, such that it will not be in {bf:r(coefs)} and is not stored as an estimate.
 
 {p 4 4 2}
-{bf:{ul:tab}le} Outputs the new table with flipped coefficients and models. If specified without {bf:[using]} then the table is simply printed in the Stata window. If combined with {bf:[using]} then the table is saved to disk using the {it:filename} specified. {it:filename} must be a filetype supported by {bf:esttab} (for details, see 
+{bf:{ul:tab}le} Outputs the new table with flipped coefficients and models. If specified without {bf:[using]} then the table is simply printed in the Stata window. If combined with {bf:[using]} then the table is saved to disk using the 
+{it:filename} specified. 
+{it:filename} must be a filetype supported by {bf:esttab} (for details, see 
 {browse "help esttab##format":esttab} ). For saving to disk, either {bf:replace} or {bf:append} must be specifed (see below). 
 
 
@@ -103,13 +108,14 @@ If option {bf:table} is specified, the following options apply:
 {title:Remarks}
 
 {p 4 4 2}
-This package is meant to be minimal, however if you have any features you think would be good to add (and preferably some advice on how to implement them as well!) then let me know! Additionally, this package was mostly designed for personal use for myself and collaborators, therefore it is possible errors exist in the code, please let me know if you spot any.
+This package is meant to be minimal, however if you have any features you think would be good to add (and preferably some advice on how to implement them as well!) then let me know! 
+This package was designed for personal use, therefore it is possible errors exist in the code, please let me know if you spot any.
 
 
 {title:Examples}
 
 {p 4 4 2}
-These examplse show that sideytab can be used alone or in conjunction with {bf:esttab} to produce new flipped tables:
+These examples show that sideytab can be used alone or in conjunction with {bf:esttab} to produce new flipped tables:
 
 
 {p 4 4 2}
@@ -124,13 +130,15 @@ These examplse show that sideytab can be used alone or in conjunction with {bf:e
         sideytab model1 model2, keep(weight mpg) stats(N r2) noconstant table
 
 
-    __2. Save table to disk as .tex file__ 
+{p 4 4 2}
+	{bf:2. Save table to disk as .tex file} 
 
         sideytab model1 model2 using "example2.rtf", ///
         keep(weight mpg) stats(N r2) noconstant table replace
 
 
-    __3. Passing additional esttab options for the output table__ 
+{p 4 4 2}
+	{bf:3. Passing additional esttab options for the output table} 
 
         sideytab model1 model2 using "example3.rtf", ///
         keep(weight mpg) stats(N r2) noconstant table replace ///
@@ -138,7 +146,8 @@ These examplse show that sideytab can be used alone or in conjunction with {bf:e
         coeflabel(model1 "Baseline" model2 "Modified")
 
 
-    __4. Using the prefix() option__ 
+{p 4 4 2}
+	{bf:4. Using the prefix() option} 
 
         sideytab model1 model2, ///
         keep(weight mpg) stats(N r2) noconstant prefix(a_) table

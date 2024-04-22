@@ -16,18 +16,18 @@ _filename_  must be a filetype supported by [esttab](help esttab).
 
 The main options are:
 
-| _Option_              |  _Description_                           |
-|:----------------------|:-----------------------------------------|
-| **keep**(_keeplist_)  | Specify which coefficients to keep       |
-| **stats**(_passthru_) | Specify which stored statistics to keep  |
-| **prefix**(_string_)  | Prefix applied to each new estimate name |
-| **nocons**tant        | Do not save model constant to estimates  |
-| **tab**le             | Produce new table output                 |
+| _Options_               |  _Description_                           |
+|:------------------------|:-----------------------------------------|
+| **keep**(_keeplist_)    | Specify which coefficients to keep       |
+| **stats**(_scalarlist_) | Specify which stored statistics to keep  |
+| **prefix**(_string_)    | Prefix applied to each new estimate name |
+| **nocons**tant          | Do not save model constant to estimates  |
+| **tab**le               | Produce new table output                 |
 
 
 If the __table__ option is specified the following options are relevant:
 
-| _Option_              | _Description_                                           |
+| _Table options_  | _Description_                                          |
 |:-----------------|:-------------------------------------------------------|
 | **r**eplace      | Overwrite an existing file                             |
 | **a**ppend       | Append the output to an existing file                  |
@@ -53,21 +53,26 @@ This package is hosted on Github. You can install __sideytab__ directly from it'
 Main options
 ------------
 
-__**keep**(_keeplist_)__ Specifies which coefficients should be run through esttab, therefore which coefficients are available in __r(coefs)__ to be collected and posted to 
-__e()__ . _keeplist_ is passed asis to __esttab__, therefore it is specified the same as _droplist_ in [estout](help estout##drop) . Each coefficient will be stored as an estimate, allowing it to be manipulated using __esttab__ , etc. 
+__**keep**(_keeplist_)__ Specifies which coefficients should be run through __esttab__ , therefore which coefficients are available in __r(coefs)__ to be collected and posted to 
+__e()__ . _keeplist_ is passed asis to __esttab__, therefore it is specified the same as _droplist_ in [estout](help estout##drop) . Each coefficient will be stored as an estimate which can be used in a later __esttab__ call. 
 
 When coefficients are posted as a new estimate, they must adhere to the naming conventions of _namelist_. Therefore coefficients with a leading numeric or containing special characters will have these characters replaced by an underscore "_". 
 This affects coefficients defined using factor notation, e.g. __1.x__ will be renamed as ____x__ . Alternatively, a prefix can be added to all estimate names, using the __prefix__ option (see below).
 
-__**stats**(_scalarlist_)__ Specifies one or more scalar statistics to be collected via __r(stats)__ and stored as estimates, with names corresponding to the name of each statistic. This includes any statistics which have been added post-estimation via the __estadd__ command. Statistics are collected and stored as estimates given the name of the statistic. These can be tabulated as models using __esttab__ , etc.
+__**stats**(_scalarlist_)__ Specifies one or more scalar statistics to be collected via __r(stats)__ and stored as estimates, with names corresponding to the name of each statistic. This includes any statistics which have been added via the 
+__estadd__ command. Statistics are collected and stored as estimates given the name of the statistic. These can be tabulated as models using __esttab__ , etc.
 
-Additionally, the __r(stats)__ matrix is added to the final stored estimate via __estadd__ , allowing them to be called within the __cell()__ option of __estout__ with the syntax __S[_name_]__ where the name refers to specific statistic name, or alternatively as __S[_#_]__ with the column index # of the matrix __S__ . See __example X__ below for further details.
+Additionally, the __r(stats)__ matrix is added to the final stored estimate via __estadd__ , allowing them to be called within the __cell()__ option of __estout__ with the syntax __S[_name_]__ where _name_ is the statistic name. 
+Alternatively it can be referred to as __S[_#_]__ with the column index # of the matrix __S__ . See __example 4__ below for further details.
 
-__**prefix**(_string_)__ Specifies a prefix to be added to the new stored estimate names for each coefficient. It must not begin with a numeric or special character except "_". For example, if __prefix(a_)__ is specified, each new estimate will be named __a_price, a_weight__ , etc. This is particularly useful for categorical variable defined by factor notation, with a leading numeric (e.g. __1.foreign__ ).
+__**prefix**(_string_)__ Specifies a prefix to be added to the new stored estimate names for each coefficient. It must not begin with a numeric or special character except "_". This is particularly useful for factor notation 
+(e.g. __1.foreign__ ).
 
 __**nocons**tant__ If specified, suppresses the model constant, such that it will not be in __r(coefs)__ and is not stored as an estimate.
 
-__**tab**le__ Outputs the new table with flipped coefficients and models. If specified without __[using]__ then the table is simply printed in the Stata window. If combined with __[using]__ then the table is saved to disk using the _filename_ specified. _filename_ must be a filetype supported by __esttab__ (for details, see 
+__**tab**le__ Outputs the new table with flipped coefficients and models. If specified without __[using]__ then the table is simply printed in the Stata window. If combined with __[using]__ then the table is saved to disk using the 
+_filename_ specified. 
+_filename_ must be a filetype supported by __esttab__ (for details, see 
 [esttab](help esttab##format) ). For saving to disk, either __replace__ or __append__ must be specifed (see below). 
 
 Table options
@@ -84,14 +89,15 @@ __[esttab_options]__ All additional __esttab/estout__ syntax specified will be p
 Remarks
 -------
 
-This package is meant to be minimal, however if you have any features you think would be good to add (and preferably some advice on how to implement them as well!) then let me know! Additionally, this package was mostly designed for personal use for myself and collaborators, therefore it is possible errors exist in the code, please let me know if you spot any.
+This package is meant to be minimal, however if you have any features you think would be good to add (and preferably some advice on how to implement them as well!) then let me know! 
+This package was designed for personal use, therefore it is possible errors exist in the code, please let me know if you spot any.
 
 Examples
 --------
 
-These examplse show that sideytab can be used alone or in conjunction with __esttab__ to produce new flipped tables:
+These examples show that sideytab can be used alone or in conjunction with __esttab__ to produce new flipped tables:
 
-    
+
 	__1. Produce a flipped table with columns weight, mpg, N and r2__
 
         qui reg price weight
@@ -103,13 +109,13 @@ These examplse show that sideytab can be used alone or in conjunction with __est
         sideytab model1 model2, keep(weight mpg) stats(N r2) noconstant table
 
     
-    __2. Save table to disk as .tex file__ 
+	__2. Save table to disk as .tex file__ 
 
         sideytab model1 model2 using "example2.rtf", ///
         keep(weight mpg) stats(N r2) noconstant table replace
 
 
-    __3. Passing additional esttab options for the output table__ 
+	__3. Passing additional esttab options for the output table__ 
 
         sideytab model1 model2 using "example3.rtf", ///
         keep(weight mpg) stats(N r2) noconstant table replace ///
@@ -117,7 +123,7 @@ These examplse show that sideytab can be used alone or in conjunction with __est
         coeflabel(model1 "Baseline" model2 "Modified")
 
     
-    __4. Using the prefix() option__ 
+	__4. Using the prefix() option__ 
 
         sideytab model1 model2, ///
         keep(weight mpg) stats(N r2) noconstant prefix(a_) table
