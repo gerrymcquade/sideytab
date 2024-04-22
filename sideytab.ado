@@ -48,7 +48,7 @@ Installation
 
 This package is hosted on Github. You can install __sideytab__ directly from it's [Github repository](https://github.com/gerrymcquade/sideytab/) by typing:
 
-        net install sideytab, from("https://github.com/gerrymcquade/sideytab/")
+        net install sideytab, from("https://raw.githubusercontent.com/gerrymcquade/sideytab/main/")
 
 Main options
 ------------

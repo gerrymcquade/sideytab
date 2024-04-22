@@ -55,7 +55,7 @@ Additionally, if {bf:table} is specified it can produce and save the new table t
 {p 4 4 2}
 This package is hosted on Github. You can install {bf:sideytab} directly from it{c 39}s  {browse "https://github.com/gerrymcquade/sideytab/":Github repository} by typing:
 
-        net install sideytab, from("https://github.com/gerrymcquade/sideytab/")
+        net install sideytab, from("https://raw.githubusercontent.com/gerrymcquade/sideytab/main/")
 
 
 {title:Main options}
