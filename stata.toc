@@ -1,0 +1,6 @@
+v 1
+d Materials by Gerald McQuade (website: gerrymcquade@gitbhub.io)
+
+d The -sideytab- program produces esttab tables with dependent variables/model names as rows and the independent variables as columns. 
+
+p sideytab A program to produce sideways esttab tables

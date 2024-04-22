@@ -1,0 +1,16 @@
+v 1
+d 'SIDEYTAB': A program to produce sideways esttab tables.
+d Author: Gerald McQuade
+d website: gerrymcquade@gitbhub.io
+d email: g.mcquade1@lancaster.ac.uk
+d 
+d This package is a simple wrapper for esttab, to produced tables with dependent variables/model names as rows and the independent variables as columns. 
+d type -help sideytab- after installation for more information. 
+
+* I can also insert comments; these will not be displayed.
+* f lines name the files that comprise your package:
+* see: help usersite
+
+f sideytab.ado
+f sideytab.sthlp
+*f mydata.dta
